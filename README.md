@@ -1101,4 +1101,331 @@ Permite capturar, filtrar y analizar paquetes en detalle.
 | PRTG Network Monitor | https://www.paessler.com |
 | NetFlow Analyzer | https://www.manageengine.com |
 
+---
 
+### 🧊 Técnicas de detección de malware: Volcado de memoria / Análisis estático
+
+El **análisis estático** consiste en examinar un archivo sospechoso **sin ejecutarlo**, para identificar su funcionalidad, estructura interna y posibles comportamientos maliciosos.  
+Es seguro, pero debe hacerse en un entorno controlado porque algunos malwares pueden activarse sin instalación.
+
+Este análisis permite:
+- Identificar **código malicioso**, estructuras de datos y funciones internas.
+- Obtener **indicadores técnicos** (nombre, hashes, tamaño, tipo de archivo).
+- Detectar **ofuscación, packers** y métodos usados para evadir análisis.
+- Analizar **dependencias**, llamadas a funciones y gráficos de llamadas.
+- Comprender la **arquitectura e impacto** del malware en el sistema.
+
+### 🔧 Técnicas comunes de análisis estático
+- **Huellas digitales** (MD5, SHA1, SHA256)  
+- **Escaneo local/online** con motores antivirus  
+- **Búsqueda de cadenas** dentro del binario  
+- **Detección de packers / ofuscadores**  
+- **Análisis de estructura PE** (en ejecutables Windows)  
+- **Revisión de dependencias**  
+- **Desensamblado del código**  
+
+Estas técnicas ayudan a entender cómo opera el malware antes de ejecutar un análisis dinámico.
+
+---
+
+### 🧊 Análisis de volcado de memoria: Huellas digitales de archivos
+
+La **toma de huellas digitales de archivos** consiste en calcular valores hash de binarios sospechosos para:
+- Identificar y rastrear archivos en una red.
+- Comparar su código con otros binarios previamente analizados.
+- Detectar posibles modificaciones durante el análisis.
+- Reconocer funciones o algoritmos criptográficos usados dentro del malware.
+
+Los hashes permiten **identificar de forma única un archivo**, aunque no funcionan bien con archivos cifrados o protegidos con contraseña (como imágenes, audio o vídeo cifrado).
+
+Las funciones hash más usadas en análisis de malware son:
+- **MD5**
+- **SHA-1**
+- **SHA-256** (preferido actualmente por seguridad)
+
+### 🔧 Herramienta destacada: HashMyFiles
+HashMyFiles permite calcular múltiples hashes (MD5, SHA1, CRC32, SHA-256, SHA-384, SHA-512) y mostrar información útil del archivo:
+- Ruta completa  
+- Fechas de creación/modificación  
+- Tamaño  
+- Atributos y versión  
+
+Esto facilita comparar binarios y detectar variaciones o copias maliciosas.
+
+### 🧰 Otras herramientas para huellas digitales
+- Hashtab — http://implbits.com  
+- HashCalc — http://www.slavasoft.com  
+- md5deep — http://md5deep.sourceforge.net  
+- MD5sums — http://www.pc-tools.net  
+- tools4noobs (hash online) — https://www.tools4noobs.com  
+- Cryptomathic — http://extranet.cryptomathic.com  
+
+---
+
+## 🧊 Análisis de volcado de memoria: Escaneo de malware local y en línea
+
+El **escaneo de malware** permite analizar binarios sospechosos utilizando motores antivirus locales o servicios online.  
+Si el archivo pertenece a una familia conocida, estos servicios pueden identificarlo rápidamente y proporcionar documentación existente, acelerando el análisis.
+
+### 🔍 Escaneo local
+Se realiza con antivirus instalados en el sistema.  
+Ayuda a detectar si el binario coincide con malware ya identificado previamente por los fabricantes.
+
+### 🌐 Escaneo online: VirusTotal
+VirusTotal permite subir archivos o URLs sospechosas y analizarlos con **decenas de motores antivirus simultáneamente**.  
+Detecta malware comparando los **hashes** del archivo con bases de datos de amenazas conocidas.
+
+**Información que proporciona VirusTotal:**
+- Motores que detectan el archivo como malicioso  
+- Nombre o familia del malware  
+- Hashes (MD5, SHA-1, SHA-256)  
+- Tipo de archivo y arquitectura  
+- Timestamp de compilación  
+- Secciones PE, DLL utilizadas  
+- Direcciones IP y conexiones asociadas  
+- Recursos y metadatos del binario  
+
+### 🧰 Otras plataformas de escaneo online
+### 🧰 Otras plataformas de escaneo (tabla)
+
+| Plataforma / Servicio                 | URL                                           | Descripción breve |
+|--------------------------------------|-----------------------------------------------|--------------------|
+| **Jotti**                            | https://virusscan.jotti.org                   | Escáner multi-antivirus gratuito. |
+| **Metadefender**                     | https://metadefender.opswat.com               | Escaneo avanzado con análisis de archivos y desinfección. |
+| **Fortiguard Online Scanner**        | https://www.fortiguard.com                    | Escáner online de Fortinet. |
+| **IObit Cloud**                      | https://cloud.iobit.com                       | Análisis de archivos en la nube. |
+| **ThreatExpert**                     | https://www.symantec.com                      | Sistema automatizado de análisis de malware. |
+| **Malwr**                            | https://malwr.com                             | Sandbox online para ejecutar y analizar malware. |
+| **Valkyrie (Comodo)**                | https://valkyrie.comodo.com                   | Análisis basado en comportamiento y reputación. |
+| **Dr.Web Online Scanner**            | https://vms.drweb.com                         | Escaneo antivirus online de Dr.Web. |
+| **UploadMalware**                    | http://www.uploadmalware.com                  | Subida y análisis colaborativo de muestras. |
+| **ThreatAnalyzer**                   | https://www.threattrack.com                   | Análisis dinámico especializado en malware. |
+| **Payload Security**                 | https://www.payload-security.com              | Plataforma de sandbox automatizado. |
+| **Anubis**                            | https://sourceforge.net                        | Motor de análisis automático de malware. |
+| **Windows Defender Security Intelligence** | https://www.microsoft.com                    | Base de datos de inteligencia de amenazas de Microsoft. |
+| **Bitdefender Quickscan**           | https://www.bitdefender.com                   | Escaneo rápido usando motores de Bitdefender. |
+
+---
+
+### 🧊 Análisis de volcado de memoria: Búsqueda de cadenas
+
+La **búsqueda de cadenas** consiste en extraer texto incrustado dentro de binarios para descubrir información oculta o funciones internas del programa.  
+Estas cadenas pueden revelar:
+
+- URLs usadas por el malware  
+- Comandos internos o argumentos sospechosos  
+- Mensajes ocultos o strings cifradas  
+- Indicadores de comportamiento malicioso  
+- Rutas de archivos, procesos o claves de registro  
+
+Durante el análisis estático, examinar estas cadenas ayuda a identificar posibles acciones dañinas sin ejecutar el malware.
+
+### 🔧 Herramienta destacada: BinText
+BinText permite extraer:
+
+- Cadenas ASCII  
+- Cadenas Unicode  
+- Cadenas embebidas en recursos  
+
+Las cadenas pueden exportarse a un archivo de texto para facilitar su análisis.
+
+### 🧰 Otras herramientas de búsqueda de cadenas
+
+| Herramienta | URL | Descripción |
+|------------|-----|-------------|
+| **FLOSS** | https://www.fireeye.com | Extrae cadenas, incluso las ofuscadas, de binarios maliciosos. |
+| **ResourceExtract** | http://www.resourceextract.com | Extrae recursos (iconos, texto, binarios) de ejecutables. |
+| **Hex Workshop** | http://www.hexworkshop.com | Editor hexadecimal avanzado con análisis de cadenas. |
+| **Strings** | https://docs.microsoft.com | Herramienta clásica de Sysinternals para extraer cadenas ASCII/Unicode. |
+
+---
+
+### 🧊 Análisis de volcado de memoria: Identificación de métodos de empaquetado / ofuscación
+
+Los atacantes utilizan **empaquetadores** y **técnicas de ofuscación** para comprimir, cifrar o modificar ejecutables con el fin de evadir la detección antivirus y dificultar la ingeniería inversa.  
+Al ejecutarse un programa empaquetado, un pequeño *stub* se encarga de **descomprimir o descifrar** el contenido real antes de ejecutarlo, ocultando la lógica interna del malware.
+
+Detectar estos métodos es esencial para:
+
+- Identificar si el binario está protegido o modificado  
+- Elegir la herramienta adecuada para desempaquetar  
+- Reconstruir el código malicioso desde el volcado de memoria  
+- Facilitar el análisis estático del malware  
+
+### 🔧 Herramienta destacada: PEiD
+
+PEiD permite identificar:
+
+- Empaquetadores comunes  
+- Cifradores  
+- Compiladores  
+- Puntos de entrada, secciones PE y metadatos útiles  
+
+Incluye firmas para más de **600 empaquetadores y compiladores**.
+
+### 🧰 Otras herramientas de empaquetado / ofuscación
+
+| Herramienta | URL | Descripción |
+|------------|-----|-------------|
+| **UPX** | https://upx.github.io | Empaquetador de ejecutables muy utilizado; permite empaquetar y desempaquetar. |
+| **Exeinfo PE** | http://exeinfo.atwebpages.com | Identifica empaquetadores, compresores, compiladores y técnicas de ofuscación. |
+| **ASPack** | http://www.aspack.com | Empaquetador comercial diseñado para reducir tamaño y ocultar código. |
+
+---
+
+### 🧊 Análisis de volcado de memoria: Búsqueda de información de ejecutables portátiles (PE)
+
+Los archivos **PE (Portable Executable)** son el formato utilizado por Windows para ejecutables, DLL y otros binarios.  
+Contienen tanto el **código ejecutable** como **metadatos esenciales** para que el sistema operativo cargue y ejecute el programa correctamente.
+
+Analizar un archivo PE permite obtener información clave para la identificación de malware, como:
+
+- Tiempos de creación/modificación  
+- Funciones importadas y exportadas  
+- Dependencias DLL  
+- Compilador y timestamp  
+- Recursos (iconos, menús, cadenas, imágenes)  
+- Estructura del archivo y secciones internas  
+
+### 📦 Secciones típicas en un archivo PE
+
+| Sección | Contenido |
+|--------|-----------|
+| **.text** | Código ejecutable que ejecuta la CPU |
+| **.rdata** | Import/export, datos de solo lectura |
+| **.data** | Variables globales y datos accesibles por el programa |
+| **.rsrc** | Recursos: iconos, imágenes, cadenas, menús, etc. |
+
+Estas secciones ayudan a identificar comportamientos sospechosos, recursos manipulados o anomalías en el binario.
+
+### 🔧 Herramienta destacada: PE Explorer
+
+PE Explorer permite:
+
+- Ver, analizar y editar ejecutables PE (EXE, DLL, ActiveX, SYS, CPL, SCR, etc.)  
+- Examinar recursos y secciones internas  
+- Descubrir dependencias y metadatos del archivo  
+
+### 🧰 Otras herramientas de análisis PE
+
+| Herramienta | URL | Descripción |
+|------------|-----|-------------|
+| **pescan (Portable Executable Scanner)** | https://tzworks.net | Analiza PE para detectar anomalías y estructura interna. |
+| **Resource Hacker** | http://www.angusj.com | Permite ver y extraer recursos incrustados en ejecutables. |
+| **PEView** | https://www.aldeid.com | Muestra los encabezados y secciones PE para análisis estático. |
+
+---
+
+### 🧩 Análisis de volcado de memoria: Identificación de dependencias de archivos
+
+Los programas dependen de **bibliotecas del sistema (DLL)** para ejecutar funciones específicas.  
+Durante el análisis de malware, revisar estas dependencias permite descubrir:
+
+- Qué funciones utiliza el binario  
+- Qué bibliotecas carga y con qué propósito  
+- Si usa DLL legítimas o manipuladas  
+- Qué capacidades podría tener (red, UI, kernel, criptografía, etc.)
+
+Analizar dependencias es clave porque los binarios maliciosos suelen apoyarse en DLL comunes para ocultarse como software legítimo.
+
+### 📚 DLL habituales en Windows
+
+| DLL | Función |
+|-----|---------|
+| **Kernel32.dll** | Acceso a memoria, archivos y hardware |
+| **Advapi32.dll** | Seguridad, registro y Service Manager |
+| **User32.dll** | Interfaz gráfica (botones, ventanas, input del usuario) |
+| **Gdi32.dll** | Generación y manipulación de gráficos |
+| **Ntdll.dll** | Interfaz interna del kernel de Windows |
+| **WSock32.dll / Ws2_32.dll** | Funciones de red y sockets |
+| **Wininet.dll** | Funciones de red de alto nivel (HTTP/FTP) |
+
+### 🔧 Herramienta destacada: Dependency Walker
+
+**Dependency Walker** permite:
+
+- Ver todas las DLL cargadas por un ejecutable  
+- Identificar funciones importadas/exportadas  
+- Detectar módulos faltantes o incompatibles  
+- Visualizar el árbol jerárquico de dependencias  
+- Detectar problemas de carga que pueden revelar comportamiento malicioso  
+
+### 🧰 Otras herramientas para análisis de dependencias
+
+| Herramienta | URL | Uso principal |
+|-------------|-----|----------------|
+| **Snyk** | https://snyk.io | Detecta vulnerabilidades en dependencias y librerías. |
+| **Hakiri** | https://hakiri.io | Análisis de seguridad en ecosistemas de dependencias. |
+| **Retire.js** | https://retirejs.github.io | Detecta librerías JS vulnerables o abandonadas. |
+
+---
+
+## 🛠️ Análisis de volcado de memoria: Desmontaje de malware
+
+El desmontaje (disassembly) es una fase del análisis estático donde se convierte el binario sospechoso en **código ensamblador legible**.  
+Esto permite a los respondedores comprender:
+
+- La lógica interna del programa  
+- Las funciones API utilizadas  
+- El lenguaje y las técnicas empleadas por el atacante  
+- Si el malware intenta conectarse a servidores C&C  
+- Si contiene mecanismos anti–ingeniería inversa  
+
+El desmontaje es esencial porque los atacantes suelen ocultar la lógica maliciosa mediante empaquetadores, ofuscación o técnicas anti-debug.
+
+### 🔧 Herramienta principal: IDA Pro
+
+**IDA Pro** es el desensamblador profesional más utilizado en análisis de malware.
+
+**Funciones clave:**
+
+- Desensambla binarios y genera mapas completos de ejecución  
+- Permite visualizar instrucciones en ensamblador igual que la CPU las ejecuta  
+- Incluye un depurador interactivo que ayuda a analizar el comportamiento real  
+- Permite saltar mecanismos de ofuscación y analizar código hostil en profundidad  
+
+### 🧰 Otras herramientas de depuración / desmontaje
+
+| Herramienta | URL | Descripción |
+|-------------|-----|-------------|
+| **OllyDbg** | http://www.ollydbg.de | Depurador x86 muy usado en análisis de malware. |
+| **WinDbg** | http://www.windbg.org | Depurador avanzado de Microsoft para kernel y user-mode. |
+| **objdump** | https://sourceware.org | Desensamblador de línea de comandos para múltiples arquitecturas. |
+| **ProcDump** | https://docs.microsoft.com | Genera volcados de procesos para análisis posterior. |
+| **KD** | https://docs.microsoft.com | Kernel Debugger para análisis profundo del sistema. |
+| **CDB** | https://docs.microsoft.com | Depurador ligero de Microsoft. |
+| **NTSD** | https://docs.microsoft.com | Depurador sin interfaz gráfica para procesos en Windows. |
+
+---
+
+### 🧠 Análisis de volcado de memoria con Volatility
+
+El análisis de volcado de memoria permite investigar sistemas comprometidos sin arrancarlos, evitando que el malware cambie su estado, elimine evidencia o se propague. Para ello se utilizan frameworks forenses como **Volatility**, una herramienta en Python ampliamente usada para extraer artefactos de memoria y detectar actividad maliciosa.
+
+Volatility permite identificar:
+
+- Procesos y servicios maliciosos  
+- Conexiones de red activas  
+- Inyecciones de código  
+- Entradas de registro cargadas  
+- Actividad anómala en memoria  
+- Persistencia y rootkits  
+
+### 🧩 Pasos básicos para analizar un volcado con Volatility
+
+1. **Crear un volcado de memoria**  
+   Guardarlo como `.dd` o `.mem` (por ejemplo, `memdump.mem`).
+
+2. **Usar un entorno seguro**  
+   Preferiblemente una **máquina virtual Linux** aislada.
+
+3. **Instalar Volatility**  
+   ```bash
+   sudo apt-get install volatility
+4. Mover el volcado al sistema de análisis
+Copiar memdump.mem a la máquina de análisis.
+
+5. Ejecutar Volatility desde su directorio
+```bash
+cd /usr/share/volatility
+Sintaxis general del comando

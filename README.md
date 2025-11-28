@@ -18,34 +18,107 @@
 
 ## 📑 Índice de Contenidos
 
-1. [Sistemas Operativos y Distribuciones](#1-sistemas-operativos-y-distribuciones)
-2. [Adquisición de Evidencia (Copia Forense)](#2-adquisición-de-evidencia-copia-forense)
-3. [Respuesta a Incidentes (First Responder)](#3-respuesta-a-incidentes-first-responder)
-4. [Análisis Forense: General y Triage](#4-análisis-forense-general-y-triage)
-5. [Análisis Específico: Windows y macOS](#5-análisis-específico-windows-y-macos)
-6. [Análisis de Memoria y Metadatos](#6-análisis-de-memoria-y-metadatos)
-7. [Recuperación de Datos (Data Recovery)](#7-recuperación-de-datos-data-recovery)
-8. [Suite de Herramientas "DBX" (Utilidades Ligeras)](#8-suite-de-herramientas-dbx-utilidades-ligeras)
-9. [Recursos y Mejores Prácticas](#9-recursos-y-mejores-prácticas)
+1. [Respuesta a incidentes de malware](#1-respuesta-a-incidentes-de-malware)
+2. [Respuestas a incidentes de correo eletrónico](#2-respuestas-a-incidentes-de-correo-eletrónico)
+3. [Respuesta a incidentes de red](#3-respuesta-a-incidentes-de-red)
+4. [Respuesta a incidentes de aplicaciones web](#4-respuesta-a-incidentes-de-aplicaciones-web)
+5. [Respuesta a incidentes en la nube](#5-respuesta-a-incidentes-en-la-nube)
+6. [Recursos y Mejores Prácticas](#9-recursos-y-mejores-prácticas)
 
 ---
 
-## 1. Sistemas Operativos y Distribuciones
+## 1. Respuesta a incidentes de seguridad de malware
 
-¿Por qué usar una Distro Forense Linux?
+El malware es software malintencionado creado para dañar sistemas, robar información o dar control al atacante. Incluye virus, gusanos, troyanos, rootkits, puertas traseras, ransomware, spyware, adware, botnets, keyloggers, crypters, etc.
 
-Permiten acceder a un PC y a sus datos sin alterar el estado original de la evidencia y sin arrancar el sistema operativo nativo del sospechoso, garantizando la integridad de la prueba (Write-blocking por software).
+Sus efectos pueden incluir:
 
-### 🐧 Distribuciones Linux Recomendadas
+- **Robo de datos personales o corporativos**
+- **Ralentización del sistema**
+- **Borrado de información**
+- **Fallos del sistema o del hardware**
+- **Uso del equipo infectado para atacar a otros**
+- **Envío de spam o publicidad maliciosa**
 
-- **CSI Linux:** Enfocada en investigación cibernética completa.
-- **CAINE (Computer Aided Investigative Environment):** Estándar de la industria, interfaz amigable y fuerte en bloqueo de escritura.
-- **Tsurugi Linux:** Excelente para DFIR (Digital Forensics & Incident Response) y análisis de malware.
-- **SANS SIFT Workstation:** La distribución de facto para análisis profundo y cursos SANS.
-- **Kali Linux / Parrot Security OS:** Aunque ofensivas, tienen modos forenses (Forensic Mode) útiles.
-- **Tails:** Para privacidad y anonimato extremo durante investigaciones OSINT.
-- **AthenaOS / Predator-OS:** Alternativas emergentes en el sector.
-- **Paladin Edge:** Basada en bootable USB, ideal para triage rápido.
+### 🐧 Tipos principales de malware
+#### 1. Troyano
+Se oculta dentro de un programa legítimo y se activa con acciones del usuario. Da acceso total al atacante y puede borrar datos, robar contraseñas o usar la máquina para atacar a otros.
+#### 2. Puerta trasera (Backdoor)
+Permite acceder al sistema evitando autenticación o controles de seguridad. Se instala sin conocimiento del usuario y facilita control remoto continuo.
+#### 3. Rootkit
+Otorga privilegios de root y oculta actividades del atacante modificando componentes del sistema operativo. Permite instalar herramientas maliciosas sin ser detectado.
+#### 4. Ransomware
+Bloquea el ordenador o cifra archivos y exige un rescate para devolver el acceso. Suele propagarse por correos maliciosos o descargas inseguras.
+#### 5. Adware
+Muestra anuncios no deseados y puede redirigir a sitios maliciosos o descargar otros tipos de malware.
+#### 6. Virus
+Programa que se autorreplica infectando archivos. Requiere acción del usuario para propagarse y puede dañar o borrar datos.
+#### 7. Gusano
+Similar al virus pero no necesita intervención humana. Se propaga por la red, satura recursos y puede instalar puertas traseras.
+#### 8. Spyware
+Vigila en secreto la actividad del usuario, registrando pulsaciones de teclado, contraseñas, páginas visitadas y capturas de pantalla.
+#### 9. Botnet
+Red de equipos infectados controlados por un atacante para realizar ataques (DDoS), enviar spam, distribuir malware, etc.
+#### 10. Crypters
+Herramientas para cifrar malware y hacerlo indetectable para los antivirus.
+
+### 🐧 Componentes del malware
+Los atacantes desarrollan malware combinando distintos componentes especializados que les permiten robar datos, modificar sistemas, instalar puertas traseras o simplemente propagarse de forma encubierta. Estos elementos ayudan al malware a evadir detección, infectar, ocultarse y ejecutar acciones maliciosas.
+
+Componentes principales del malware
+- **Crypter**: oculta el malware cifrándolo para evitar que los antivirus lo detecten o analicen.
+- **Downloader**: troyano que descarga desde Internet más malware al sistema comprometido.
+- **Dropper**: instala el malware de forma encubierta y puede traer archivos adicionales necesarios para la infección.
+- **Exploit**: código que aprovecha vulnerabilidades para comprometer el sistema, espiar o instalar malware.
+- **Injector**: inserta código malicioso o exploits dentro de procesos legítimos para ocultar su actividad.
+- **Obfuscator*: oculta o transforma el código malicioso para dificultar su análisis y detección.
+- **Packer**: comprime y transforma el malware a un formato ilegible para hacer más difícil su identificación.
+- **Payload (carga útil)**: la parte del malware que ejecuta la acción maliciosa (borrar datos, abrir puertos, modificar archivos, etc.).
+- **Código malicioso**: instrucciones base del malware, que pueden aparecer como subprogramas Java, controles ActiveX, complementos de navegador o contenido embebido.
+
+### 🐧 Métodos de propagación de malware
+Los métodos más comunes que utilizan los atacantes para infectar un sistema con malware incluyen:  
+- Aplicaciones de mensajería instantánea  
+- Medios de hardware portátiles/dispositivos extraíbles  
+- Errores de software del navegador y correo electrónico 
+- Administración de parches insegura  
+- Aplicaciones falsas/señuelo  
+- Sitios no confiables y aplicaciones web/software gratuito  
+- Descarga de archivos basados en Internet  
+- Archivos adjuntos de correo electrónico  
+- Propagación de red 
+- Servicios para compartir archivos [sistema básico de entrada/salida de red (NetBIOS); protocolo de transferencia de archivos (FTP); bloque de mensajes del servidor (SMB)] 
+- Instalación por otros malwares  
+- Bluetooth y redes inalámbricas  
+- Ejecutables infectados, archivos de biblioteca de vínculos dinámicos (DLL), macros, JavaScripts y Documentos 
+
+### 🐧 Técnicas comunes que utilizan los atacantes para distribuir software malicioso en la Web  
+Los atacantes utilizan varias técnicas para difundir malware aprovechando fallos, ingeniería social y manipulación de contenidos:
+- **Black Hat SEO**: manipulan motores de búsqueda usando técnicas SEO agresivas para posicionar páginas que contienen malware.
+- **Clickjacking social**: engañan a usuarios para que hagan clic en enlaces infectados dentro de sitios aparentemente legítimos.
+- **Spear phishing web**: crean páginas falsas que imitan instituciones reales para robar contraseñas y datos bancarios.
+- **Malvertising**: insertan anuncios maliciosos en plataformas de publicidad legítimas para infectar a usuarios.
+- **Sitios legítimos comprometidos**: usan webs vulnerables para instalar malware cuando el usuario las visita.
+- **Descargas automáticas (drive-by downloads)**: explotan vulnerabilidades del navegador para instalar malware sin interacción del usuario.
+- **Correos con malware**: envían emails con adjuntos o enlaces infectados; es uno de los métodos más comunes hoy en día.
+
+### 🐧 Caso de estudio
+El siguiente caso de estudio muestra la importancia y la necesidad del malware IR para manejar de manera efectiva los incidentes de seguridad del malware: 
+
+**Desafío**: 
+Maria White, directora administrativa de la organización, encontró su sistema inaccesible y mostró la siguiente imagen. Entendiendo que fue algún tipo de ataque de malware, se puso en contacto con el equipo de RI para investigar el problema. Cuando llegaron los equipos de respuesta a incidentes, descubrieron que más de 30 sistemas de la organización se vieron afectados por un ataque de ransomware similar. 
+
+**Proceso**: 
+Los que respondieron separaron inmediatamente los sistemas afectados de la red en funcionamiento e informaron a la organización de Microsoft sobre el problema. Descubrieron que el problema había afectado a los sistemas a gran escala y era el resultado del uso de versiones más antiguas y vulnerables de los sistemas operativos Windows. 
+
+Como los sistemas eran inaccesibles, los que respondieron extrajeron la memoria del disco duro de algunos sistemas. Los respondedores extrajeron los datos y los transfirieron al entorno de la caja de arena para iniciar el análisis. 
+
+**Solución**: 
+Los respondedores inmediatamente parchearon el sistema operativo con actualizaciones de Microsoft y comenzaron a analizar los datos. Durante el análisis, descubrieron que el malware había cifrado todos los archivos del sistema. Intentaron analizar estáticamente los archivos y descubrieron que el malware intentaba conectarse a un dominio no registrado y mostraba signos de falla de conexión. El equipo utilizó diferentes técnicas de análisis de malware, como buscar cadenas, buscar archivos ejecutables portátiles (PE) e identificar dependencias de archivos, pero todo fue en vano. 
+
+Descubrieron que el malware estaba utilizando la solicitud de dominio como clave de descifrado y que cualquier respuesta del dominio podría liberar los sistemas. Luego, el equipo de respuesta utilizó servicios de simulación de red, como la suite de simulación de servicios de Internet (iNetSim), para simular la respuesta como si fuera del dominio solicitado por el malware. Al aplicar lo mismo, el ransomware desbloqueó el sistema. Los que respondieron inmediatamente utilizaron esta técnica en todos los sistemas y los parchearon con una actualización del fabricante. 
+
+Los que respondieron también sugirieron que la empresa debe tener una política de actualización automática programada para evitar la explotación de las vulnerabilidades del sistema existente. 
 
 ---
 

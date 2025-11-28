@@ -380,3 +380,725 @@ Combina las funciones de Filemon y Regmon con mejoras avanzadas.
 | Process Network Monitor | https://securityxploded.com |
 | OpManager | https://www.manageengine.com |
 
+---
+
+### 🧩 Análisis del sistema en vivo: Monitoreo del Registro de Windows
+
+El **Registro de Windows** almacena configuraciones del sistema y programas.  
+Cuando un malware se instala, suele **modificar el registro** para:
+
+- Garantizar su ejecución automática al iniciar el sistema  
+- Mantener persistencia  
+- Ejecutar acciones maliciosas sin intervención del usuario  
+
+Estos cambios pueden provocar síntomas como:
+- Ralentización del sistema  
+- Aparición constante de anuncios  
+- Programas que se inician solos  
+
+### 📌 Claves del registro usadas frecuentemente por malware
+
+Windows ejecuta automáticamente instrucciones ubicadas en:
+
+Run
+RunServices
+RunOnce
+RunServicesOnce
+HKEY_CLASSES_ROOT\exefile\shell\open\command "%1" %*
+
+Los atacantes insertan entradas maliciosas en estas rutas para mantener persistencia y ejecutar el malware en cada arranque.
+
+Para detectarlo, es importante revisar estas claves y buscar **entradas desconocidas o sospechosas**.
+
+### 🛠️ Herramientas para monitorear y analizar el registro
+
+#### **Jv16 Power Tools 2017**
+Fuente: https://www.macecraft.com  
+Software de utilidad que permite:
+
+- Escanear y monitorear el registro  
+- Detectar entradas creadas por malware  
+- Limpiar restos, entradas corruptas y archivos temporales  
+- Optimizar el sistema corrigiendo errores del registro  
+
+### 🔍 Otras herramientas de monitoreo del registro
+
+| Herramienta | Enlace |
+|------------|--------|
+| Regshot | https://sourceforge.net |
+| Reg Organizer | https://www.chemtable.com |
+| Registry Viewer | https://accessdata.com |
+| RegScanner | http://www.nirsoft.net |
+| Registrar Registry Manager | https://www.resplendence.com |
+| Active Registry Monitor | https://www.devicelock.com |
+| MJ Registry Watcher | https://www.jacobsm.com |
+| Buster Sandbox Analyzer | https://bsa.isoftware.nl |
+
+---
+
+### 🧩 Monitoreo de servicios de Windows para detectar malware
+
+Los atacantes suelen diseñar malware que **se instala y ejecuta como un servicio de Windows**, aprovechando que los servicios se ejecutan en segundo plano y pasan desapercibidos.  
+Esto les permite:
+
+- Mantener persistencia  
+- Ejecutar acciones maliciosas sin intervención del usuario  
+- Controlar el sistema de forma remota  
+- Ejecutarse con privilegios elevados (como `SYSTEM`)  
+
+El malware también cambia el nombre de sus procesos/servicios para parecer legítimos, e incluso usa técnicas **rootkit** para ocultarse manipulando claves como:
+
+HKEY_LOCAL_MACHINE\System\CurrentControlSet\Services
+
+Detectar servicios maliciosos es fundamental en un análisis dinámico o de respuesta a incidentes.
+
+### 🛠️ Herramienta principal: Windows Service Manager (SrvMan)
+
+Fuente: http://tools.sysprogs.org  
+
+SrvMan permite visualizar, crear, eliminar y gestionar servicios de Windows, tanto desde GUI como desde línea de comandos.  
+Útil para identificar servicios sospechosos generados por malware.
+
+#### 📌 Comandos principales
+
+**Crear un servicio**
+
+srvman.exe add <file.exe/file.sys> [service name] [display name] [/type:<service type>] [/start:<start mode>] [/interactive:no] [/overwrite:yes]
+
+**Eliminar un servicio**
+
+srvman.exe delete <service name>
+
+**Iniciar / detener / reiniciar servicios**
+
+srvman.exe start <service name> [/nowait] [/delay:<msec>]
+srvman.exe stop <service name> [/nowait] [/delay:<msec>]
+srvman.exe restart <service name> [/delay:<msec>]
+
+**Instalar y ejecutar un driver**
+
+srvman.exe run <driver.sys> [service name] [/copy:yes] [/overwrite:no] [/stopafter:<msec>]
+
+### 🔍 Otras herramientas de monitoreo de servicios
+
+| Herramienta | Enlace |
+|------------|--------|
+| Advanced Windows Service Manager | https://securityxploded.com |
+| Netwrix Service Monitor | https://www.netwrix.com |
+| AnVir Task Manager | https://www.anvir.com |
+| Service+ | https://www.activeplus.com |
+| Easy Windows Service Manager | https://archive.codeplex.com |
+| Nagios XI | https://www.nagios.com |
+| Windows Service Monitor | https://www.manageengine.com |
+| PC Services Optimizer | https://www.smartpcutilities.com |
+| SMART Utility | https://www.volitans-software.com |
+
+---
+
+### 🚀 Análisis del sistema en vivo: supervisión de programas de inicio 
+
+Muchos tipos de malware se añaden al **inicio automático del sistema** para ejecutarse cada vez que Windows arranca.  
+Modificar el startup les permite mantener **persistencia**, ejecutar acciones maliciosas desde el primer segundo y evadir la detección.
+
+Por eso, revisar manualmente los programas de inicio o utilizar herramientas especializadas como **Autoruns para Windows** es fundamental en un análisis dinámico o durante una respuesta a incidentes.
+
+---
+
+## 🔎 Pasos para detectar manualmente malware oculto en el inicio
+
+### **1️⃣ Revisar las entradas del registro relacionadas con el inicio**
+
+Los programas y drivers configurados para ejecutarse en el arranque pueden encontrarse en varias claves del registro.
+
+#### 📌 *Windows Startup*
+
+HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Run
+HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Run
+HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\RunOnce
+HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\RunOnce
+
+#### 📌 *Explorer Startup*
+
+HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Shell Folders, Common Startup
+HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders, Common Startup
+HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\Shell Folders, Startup
+HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders, Startup
+
+#### 📌 *Internet Explorer Startup*
+
+HKEY_CURRENT_USER\Software\Microsoft\Internet Explorer\URLSearchHooks
+HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Internet Explorer\Toolbar
+HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Internet Explorer\Extensions
+HKEY_CURRENT_USER\SOFTWARE\Microsoft\Internet Explorer\MenuExt
+
+### **2️⃣ Revisar controladores cargados automáticamente**
+Verificar drivers en:
+
+C:\Windows\System32\drivers
+
+### **3️⃣ Revisar configuración de arranque (boot.ini/bcd)**
+
+Usar:
+
+bcdedit
+
+para listar las entradas del gestor de arranque.
+
+### **4️⃣ Verificar servicios que inician automáticamente**
+
+Abrir:
+
+services.msc
+
+Ordenar por *Tipo de inicio* y revisar servicios configurados como **Automático**, especialmente si no se reconocen.
+
+### **5️⃣ Revisar carpetas de inicio**
+
+Carpetas que ejecutan programas al iniciar sesión:
+
+C:\ProgramData\Microsoft\Windows\Start Menu\Programs\Startup
+C:\Users<User>\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Startup
+
+Acceso rápido:
+1. `Win + R`
+2. Escribir `shell:startup`
+
+## 🛠️ Herramienta principal: Autoruns para Windows
+
+Fuente: https://docs.microsoft.com  
+
+Autoruns permite ver absolutamente **todo lo que se ejecuta al inicio**, incluyendo:
+
+- Programas
+- Drivers
+- Tareas programadas
+- Servicios
+- Extensiones del navegador
+- DLLs cargadas
+- Shell extensions
+- Winlogon notifications
+
+Además, la opción **"Hide Microsoft entries"** permite mostrar solo software de terceros, facilitando encontrar malware.
+
+## 🧰 Otras herramientas para analizar inicio automático
+
+| Herramienta | Enlace |
+|-------------|--------|
+| WinPatrol | https://www.winpatrol.com |
+| Autorun Organizer | https://www.chemtable.com |
+| Quick Startup | https://www.glarysoft.com |
+| StartEd Pro | https://www.outertech.com |
+| Chameleon Startup Manager | http://www.chameleon-managers.com |
+| BootRacer | http://www.greatis.com |
+| WinTools.net Startup Manager | http://www.wintools.net |
+| EF StartUp Manager | http://www.efsoftware.com |
+| PC Startup Master | https://www.smartpcutilities.com |
+| CCleaner | https://www.piriform.com |
+| Startup Delayer | https://www.r2.com.au |
+
+---
+
+### 📜 Monitoreo de registros de eventos (Event Logs) — Análisis del sistema en vivo
+
+El análisis de registros (logs) es esencial para detectar actividad maliciosa en un sistema, ya que permite identificar:
+
+- Troyanos y gusanos
+- Intentos de acceso no autorizado
+- Backdoors de día cero
+- Fallos de autenticación
+- Actividad anómala en servicios, aplicaciones o red
+
+Los logs son una **fuente primaria de evidencia** en un análisis de malware o intrusión y permiten encontrar brechas de seguridad revisando eventos en firewalls, IDS/IPS, servidores web, autenticación, etc.
+
+En Windows, los registros se revisan desde el **Visor de eventos (Event Viewer)**.
+
+## 📁 Ubicación de los registros en Windows
+
+### **Registros del sistema**
+
+Inicio → Herramientas administrativas de Windows → Visor de eventos → Registros de Windows
+
+### **Registros de seguridad**
+
+Inicio → Herramientas administrativas de Windows → Visor de eventos → Registros de Windows → Seguridad
+
+### **Registros de aplicaciones y servicios**
+
+Inicio → Herramientas administrativas de Windows → Visor de eventos → Registros de aplicaciones y servicios
+
+## ⌨️ Monitoreo del historial de comandos
+
+Algunos malware usan el **Símbolo del sistema** para:
+
+- Escalar privilegios  
+- Acceder a rutas restringidas  
+- Enumerar otros equipos  
+- Ejecutar operaciones maliciosas  
+
+Por ello, revisar el historial de comandos es crucial.
+
+### 📌 Recuperar historial de comandos activo
+
+doskey /history
+
+Este comando muestra los comandos ejecutados en las ventanas de CMD abiertas.
+
+## 🛠️ Herramienta principal: Loggly
+
+Fuente: https://www.loggly.com  
+
+Loggly detecta automáticamente formatos de registro y ofrece análisis estructurado en tiempo real. Permite monitorizar actividades sospechosas, correlacionar eventos y obtener visión completa del comportamiento del sistema.
+
+### ⭐ Características principales
+- Seguimiento del cumplimiento de SLA  
+- Detección de anomalías y eventos sospechosos  
+- Transmisión segura de datos de registro  
+- Monitorización proactiva  
+- Vista consolidada y en tiempo real de los logs  
+
+## 🔍 Otras herramientas de análisis de registros
+
+| Herramienta | Enlace |
+|-------------|--------|
+| SolarWinds Log & Event Manager | https://www.solarwinds.com |
+| Netwrix Event Log Manager | https://www.netwrix.com |
+| LogFusion | https://www.logfusion.ca |
+| Alert Logic Log Manager | https://www.alertlogic.com |
+| EventTracker Log Manager | https://www.eventtracker.com |
+| Process Lasso Pro | https://bitsum.com |
+| Splunk | https://www.splunk.com |
+
+### 📦 Monitoreo de instalación — Análisis del sistema en vivo
+
+Durante la instalación o desinstalación de software, el sistema puede dejar rastros como carpetas, archivos o entradas de registro que no se eliminan correctamente.  
+El malware aprovecha esto para **instalarse en segundo plano**, dejando cambios que pasan desapercibidos.
+
+El monitoreo de la instalación permite:
+
+- Detectar instalaciones ocultas de malware  
+- Identificar carpetas o archivos creados/modificados  
+- Encontrar restos de aplicaciones que no deberían estar presentes  
+- Ver qué recursos utiliza un programa (CPU, memoria, disco, etc.)
+
+Herramientas especializadas permiten rastrear todos los cambios realizados por instaladores y detectan comportamiento anómalo.
+
+## 🛠️ Herramienta principal: Mirekusoft Install Monitor
+
+Fuente: https://www.mirekusoft.com  
+
+Mirekusoft Install Monitor supervisa automáticamente los programas instalados en el sistema, registrando:
+
+- Archivos creados o modificados  
+- Entradas de registro generadas  
+- Espacio en disco utilizado  
+- Uso de CPU y memoria  
+- Programas instalados en conjunto  
+
+Es útil para identificar **instalaciones maliciosas**, restos de software y aplicaciones inesperadas.
+
+## 🔍 Otras herramientas de monitoreo de instalación
+
+| Herramienta | Enlace |
+|-------------|--------|
+| SysAnalyzer | https://www.aldeid.com |
+| Advanced Uninstaller PRO | https://www.advanceduninstaller.com |
+| Revo Uninstaller Pro | https://www.revouninstaller.com |
+| Comodo Programs Manager | https://www.comodo.com |
+
+### 📂 Monitoreo de archivos y carpetas — Análisis del sistema en vivo
+
+El malware puede **crear, modificar o usar archivos y carpetas** del sistema para almacenar información, ejecutar código oculto o mantener persistencia.  
+Por ello, es crucial analizar:
+
+- Archivos creados por el malware  
+- Carpetas modificadas recientemente  
+- Archivos abiertos por usuarios remotos  
+- Contenido del portapapeles  
+- Archivos de captación previa (prefetch)  
+- Controladores sin firmar  
+- Hashes y cambios en la integridad de archivos  
+
+La supervisión de estos elementos permite detectar comportamientos sospechosos y reconstruir la actividad del malware.
+
+## 📌 Archivos abiertos por procesos remotos
+
+Para ver archivos abiertos actualmente en el sistema:
+
+openfiles
+
+Útil para identificar archivos usados por malware o atacantes remotos.
+
+## 📁 Archivos de captación previa (Prefetch)
+
+Windows crea archivos *prefetch* para optimizar el inicio de aplicaciones.  
+Estos archivos revelan:
+
+- Programas ejecutados por el atacante  
+- DLLs y rutas utilizadas  
+- Tiempos de ejecución del malware  
+- Herramientas usadas para borrar rastros (ej: CCleaner)
+
+### Herramienta recomendada
+**WinPrefetchView** — Permite visualizar y analizar archivos prefetch.
+
+## 🛡️ Verificación de integridad y búsqueda de archivos sospechosos
+
+Para detectar cambios en archivos del sistema, troyanos instalados o modificaciones maliciosas, se utilizan herramientas de integridad como:
+
+- SIGVERIF  
+- FCIV  
+- Fastsum  
+- WinMD5  
+- Tripwire  
+
+Estas herramientas comparan hashes, firmas y modificaciones para identificar manipulaciones.
+
+## 🛠️ Herramienta principal: SIGVERIF
+
+Fuente: https://support.microsoft.com  
+
+**SIGVERIF** es una herramienta integrada en Windows que detecta controladores del sistema **no firmados**, los cuales pueden ser parte de rootkits o malware.
+
+### Cómo usar SIGVERIF
+
+1. Abrir `Inicio → Ejecutar`  
+2. Escribir:
+
+SIGVERIF
+
+3. Clic en **Avanzado** → "Buscar otros archivos sin firmar"
+4. Seleccionar:
+
+C:\Windows\System32\drivers
+
+5. Revisar el reporte generado:
+
+C:\Windows\Sigverif.txt
+
+## 🔍 Otras herramientas de verificación de integridad de archivos
+
+| Herramienta | Enlace |
+|-------------|--------|
+| Tripwire File Integrity Manager | https://www.tripwire.com |
+| Netwrix Auditor | https://www.netwrix.com |
+| Verisys | https://www.ionx.co.uk |
+| PA File Sight | https://www.poweradmin.com |
+| CSP File Integrity Checker | https://www.cspsecurity.com |
+| NNT Change Tracker | https://www.newnettechnologies.com |
+| AFICK | http://afick.sourceforge.net |
+| Fsum Frontend | http://fsumfe.sourceforge.net |
+| OSSEC | https://www.ossec.net |
+| IgorWare Hasher | https://www.igorware.com |
+
+---
+
+### 🧩 Monitoreo de controladores de dispositivos — Análisis del sistema en vivo
+
+El malware puede instalarse **junto con controladores de dispositivos** descargados desde fuentes no confiables.  
+Al ejecutarse como drivers, los atacantes obtienen:
+
+- Mayor sigilo (los drivers se ejecutan a bajo nivel)
+- Persistencia
+- Capacidades de rootkit
+- Ejecución antes de muchos servicios del sistema
+
+Por ello, revisar los controladores de dispositivo es esencial durante un análisis dinámico.
+
+## 📁 Ubicación de controladores del sistema en Windows
+
+Para listar controladores del sistema:
+
+Ejecutar → msinfo32 → Entorno de software → Controladores del sistema
+
+## 🛠️ Herramienta principal: DriverView
+
+Fuente: https://www.nirsoft.net  
+
+**DriverView** muestra todos los controladores de dispositivos cargados actualmente, junto con:
+
+- Dirección de carga  
+- Descripción  
+- Versión  
+- Nombre del producto  
+- Empresa/desarrollador  
+
+Es una herramienta ligera, portable y muy útil para detectar drivers sospechosos o no firmados que podrían estar relacionados con malware.
+
+## 🔍 Otras herramientas de análisis de controladores
+
+| Herramienta | Enlace |
+|-------------|--------|
+| Driver Booster | https://www.iobit.com |
+| Driver Reviver | https://www.reviversoft.com |
+| Driver Easy | https://www.drivereasy.com |
+| Driver Fusion | https://treexy.com |
+| Driver Genius | http://www.driver-soft.com |
+| Unknown Device Identifier | http://www.zhangduo.com |
+| Driver Magician | http://www.drivermagician.com |
+| DriverHive | http://www.driverhive.com |
+| InstalledDriversList | https://www.nirsoft.net |
+| My Drivers | http://www.zhangduo.com |
+| Driver Agent Plus | https://scan.driverguide.com |
+| DriverPack | https://drp.su |
+
+### 🌐 Monitoreo del tráfico de red — Análisis del sistema en vivo
+
+El análisis de red consiste en **capturar y examinar el tráfico** para identificar actividad maliciosa.  
+El malware suele depender de la red para:
+
+- Propagarse  
+- Descargar payloads adicionales  
+- Enviar información confidencial al atacante  
+- Mantener canales de control remoto  
+- Escalar privilegios dentro de la red  
+
+Por ello, monitorizar el tráfico aumenta significativamente la capacidad de detectar:
+
+- Conexiones sospechosas  
+- Paquetes anómalos  
+- Artefactos de malware  
+- Comunicación con C2 (Command & Control)  
+- Filtración de datos (exfiltration)  
+
+Herramientas como **Capsa Network Analyzer** y **Wireshark** permiten capturar tráfico en vivo mientras se ejecuta un programa sospechoso.
+
+## 🛠️ Herramienta principal: Capsa Network Analyzer
+
+Fuente: https://www.colasoft.com  
+
+Capsa es un analizador de red avanzado que ofrece:
+
+### ⭐ Características principales
+- Captura de paquetes en tiempo real  
+- Monitorización 24/7 en LAN y WLAN  
+- Análisis y decodificación profunda de protocolos  
+- Identificación de tráfico sospechoso (“Top Talkers”)  
+- Supervisión de tráfico de email y mensajería instantánea  
+- Mapas de hosts por IP y MAC  
+- Detección de hosts anómalos  
+- Diagnóstico experto de problemas de red  
+
+Es especialmente útil para identificar signos de troyanos, conexiones C2 y comportamientos anormales.
+
+## 🔍 Otras herramientas de monitoreo de tráfico de red
+
+| Herramienta | Enlace |
+|-------------|--------|
+| Wireshark | https://www.wireshark.org |
+| Nessus | https://www.tenable.com |
+| NetResident | https://www.tamos.com |
+| PRTG Network Monitor | https://kb.paessler.com |
+| GFI LanGuard | https://www.gfi.com |
+| NetFort LANGuardian | https://www.netfort.com |
+| CapMon | https://www.capmon.dk |
+| Nagios XI | https://www.nagios.com |
+| Total Network Monitor | https://www.softinventive.com |
+
+---
+
+### 🌐 Monitoreo y resolución de DNS — Análisis del sistema en vivo
+
+Algunos tipos de malware, como **DNSChanger**, modifican la configuración DNS del sistema para redirigir al usuario a sitios fraudulentos, interceptar navegación web o manipular tráfico.  
+Esto permite al atacante:
+
+- Redirigir a páginas falsas (phishing)  
+- Controlar qué sitios puede visitar la víctima  
+- Alterar consultas DNS  
+- Realizar ataques MITM  
+- Desplegar publicidad maliciosa  
+- Impedir acceso a sitios legítimos (antivirus, bancos, etc.)  
+
+Por ello, durante un análisis dinámico es esencial revisar si el malware:
+
+- Cambia los servidores DNS configurados  
+- Realiza consultas DNS sospechosas  
+- Se comunica con servidores C2 mediante dominios  
+- Recurre a técnicas como *fast flux* o *domain generation algorithms (DGA)*
+
+## 🛠️ Herramienta principal: DNSQuerySniffer
+
+Fuente: https://www.nirsoft.net  
+
+**DNSQuerySniffer** es una utilidad de rastreo que captura todas las consultas DNS realizadas desde el sistema.
+
+### 📌 Información mostrada por consulta DNS
+- Nombre de host  
+- Puerto  
+- ID de consulta  
+- Tipo de registro (A, AAAA, NS, MX, etc.)  
+- Tiempo de solicitud  
+- Tiempo de respuesta  
+- Duración de la consulta  
+- Código de respuesta  
+- Número de registros devueltos  
+- Contenido de cada registro  
+
+Además, permite exportar resultados en:
+- CSV  
+- HTML  
+- TSV  
+- Copiar directamente al portapapeles para Excel
+
+## 🔍 Otras herramientas de monitoreo/resolución DNS
+
+| Herramienta | Enlace |
+|-------------|--------|
+| DNSstuff | https://www.dnsstuff.com |
+| DNS Lookup Tool | https://www.ultratools.com |
+| Sonar | https://constellix.com |
+
+---
+
+### 🧵 Monitoreo de llamadas API — Análisis del sistema en vivo
+
+Las **API del sistema operativo** permiten que las aplicaciones interactúen con Windows para acceder a:
+
+- Archivos y sistemas de almacenamiento  
+- Procesos e hilos  
+- Registros  
+- Kernel y funciones internas  
+- Servicios de red  
+- Sitios web y tráfico de Internet  
+- Eventos del sistema  
+- Interfaz gráfica (mouse, botones, ventanas)
+
+El malware también utiliza estas API para:
+
+- Manipular archivos del sistema  
+- Inyectarse en otros procesos  
+- Modificar configuraciones  
+- Crear persistencia  
+- Ejecutar código malicioso  
+- Evasión de defensas  
+
+Por ello, supervisar las **llamadas API** de un ejecutable sospechoso es clave para entender su comportamiento.
+
+## 🛠️ Herramienta principal: API Monitor
+
+Fuente: https://www.apimonitor.com  
+
+**API Monitor** permite capturar y visualizar todas las llamadas Win32 API realizadas por un programa.
+
+### ⭐ Información que muestra API Monitor
+- Nombre de la función llamada  
+- Secuencia de llamadas  
+- Parámetros de entrada  
+- Valores de salida  
+- Valores devueltos por la función  
+- Módulo que realiza la llamada  
+- Tiempo de ejecución  
+
+Es una de las mejores herramientas para comprender cómo interactúa una aplicación (o malware) con Windows.
+
+## 🔍 Otras herramientas de monitoreo de API
+
+| Herramienta | Enlace |
+|-------------|--------|
+| APImetrics | https://apimetrics.io |
+| Runscope | https://www.runscope.com |
+| AlertSite | https://smartbear.com |
+
+---
+
+### ⏰ Monitoreo de tareas programadas — Análisis del sistema en vivo
+
+Muchos tipos de malware crean o modifican **tareas programadas** en Windows para garantizar su ejecución automática.  
+Esto permite que el malware:
+
+- Se active en una fecha específica (bombas lógicas)  
+- Se ejecute tras un evento (inicio de sesión, arranque del sistema, conexión a red)  
+- Mantenga persistencia incluso tras reinicios  
+- Oculte su actividad al ejecutarse solo en ciertos momentos  
+- Reactivarse automáticamente si el usuario lo elimina
+
+Por ello, revisar las tareas programadas es esencial en un análisis dinámico.
+
+## 🛠️ Cómo detectar tareas programadas sospechosas
+
+### ✔️ Línea de comandos
+Puedes listar todas las tareas programadas con:
+
+schtasks
+
+Esto muestra:
+
+- Nombre de la tarea  
+- Ubicación  
+- Usuario que la ejecuta  
+- Estado  
+- Trigger/Programación  
+- Acción (programa ejecutado)
+
+### ✔️ Interfaz gráfica
+También puedes usar la herramienta integrada:
+
+**Programador de tareas**  
+> Panel de control → Herramientas administrativas → Programador de tareas
+
+## 🔍 Herramientas adicionales para monitorear tareas programadas
+
+| Herramienta | Enlace |
+|-------------|--------|
+| Monitoring Task Scheduler Tool (MoTaSh) | https://github.com |
+| ADAudit Plus | https://www.manageengine.com |
+| CronitorCLI | https://cronitor.io |
+| SolarWinds Windows Scheduled Task Monitor | https://www.solarwinds.com |
+
+---
+
+### 🌐 Análisis del sistema en vivo: Monitoreo de la actividad del navegador
+
+El malware puede utilizar los **navegadores web** para comunicarse con servidores de comando y control (C&C), descargar archivos maliciosos o conectarse a sitios peligrosos.  
+Por ello, es esencial revisar su actividad para identificar compromisos.
+
+## 🔍 Qué revisar en la actividad del navegador
+
+Los respondedores deben inspeccionar:
+
+- **Historial de navegación**  
+- **Historial de descargas**
+- **Cachés web**
+- **Extensiones instaladas**
+- **Conexiones a puertos inusuales** (distintos de 80/443/8080)
+- **Registros de firewalls/SWG** para:
+  - URLs sospechosas  
+  - Cadena maliciosas  
+  - Dominios desconocidos  
+  - Intentos de conexión a C&C  
+
+También se pueden analizar patrones de navegación anómalos o acceso a dominios relacionados con malware.
+
+## 🛠️ Herramientas recomendadas
+
+### ✔️ Wireshark
+**Fuente:** https://www.wireshark.org  
+
+Wireshark es el analizador de protocolos más utilizado para investigar tráfico web malicioso.  
+Permite capturar, filtrar y analizar paquetes en detalle.
+
+#### Componentes principales
+- **Barra de menú**: funciones principales  
+- **Barra de herramientas**: accesos rápidos  
+- **Barra de filtro**: filtrado avanzado de tráfico  
+- **Panel de lista de paquetes**: vista general  
+- **Panel de detalles**: breakdown por capas/protocolo  
+- **Panel de bytes**: vista en hexadecimal
+
+#### Características clave
+- Inspección profunda de cientos de protocolos  
+- Captura en vivo y análisis offline  
+- Navegador de tres paneles  
+- Multiplataforma (Windows, Linux, macOS, BSD, Solaris…)  
+- Herramienta CLI: **TShark**
+
+## 🔧 Herramientas adicionales de monitoreo de tráfico web
+
+| Herramienta | Enlace |
+|-------------|--------|
+| Colasoft Network Analyzer | https://www.colasoft.com |
+| OmniPeek | https://www.savvius.com |
+| Observer Analyzer | https://www.viavisolutions.com |
+| PRTG Network Monitor | https://www.paessler.com |
+| NetFlow Analyzer | https://www.manageengine.com |
+
+

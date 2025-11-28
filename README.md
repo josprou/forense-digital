@@ -141,25 +141,25 @@ Los atacantes utilizan varias técnicas para difundir malware aprovechando fallo
 
 El kit de herramientas de malware debe incluir:
 
-- 💻 Una computadora portátil con herramientas de análisis  
-- 💾 Dispositivos para copias de seguridad  
-- 🌐 Hardware y cables de red  
-- 📀 Dispositivos extraíbles (DVD, USB) para recopilar y transferir evidencias  
+- Una computadora portátil con herramientas de análisis  
+- Dispositivos para copias de seguridad  
+- Hardware y cables de red  
+- Dispositivos extraíbles (DVD, USB) para recopilar y transferir evidencias  
 
 **Herramientas recomendadas para detección y análisis de malware:**
 
-- 🧪 **Virtualización**: VirtualBox, VMware vSphere Hypervisor, Microsoft Virtual Server  
-- 📸 **Imágenes forenses**: FTK Imager  
-- 🧬 **Análisis de PE**: PEView, PeStudio, PEiD, PEBrowse  
-- 🧾 **Snapshots de host**: Regshot, RegMon, FileMon, Total Commander  
-- 🧠 **Volcado de memoria**: Scylla, OllyDumpEx  
-- 🌐 **Rastreo de red**: Wireshark  
-- 🌍 **Simulación de red**: iNetSim  
-- 📊 **Procesos y monitorización**: Process Monitor, Process Explorer  
-- 🔢 **Hex editors**: HexEditor, 010 Editor, Hexinator  
-- 🐞 **Depuración**: OllyDbg, IDA Pro  
-- 🧵 **Búsqueda de cadenas**: ResourcesExtract, Bintext, Hex Workshop  
-- 🧩 **Dependencias**: Dependency Walker  
+- **Virtualización**: VirtualBox, VMware vSphere Hypervisor, Microsoft Virtual Server  
+- **Imágenes forenses**: FTK Imager  
+- **Análisis de PE**: PEView, PeStudio, PEiD, PEBrowse  
+- **Snapshots de host**: Regshot, RegMon, FileMon, Total Commander  
+- **Volcado de memoria**: Scylla, OllyDumpEx  
+- **Rastreo de red**: Wireshark  
+- **Simulación de red**: iNetSim  
+- **Procesos y monitorización**: Process Monitor, Process Explorer  
+- **Hex editors**: HexEditor, 010 Editor, Hexinator  
+- **Depuración**: OllyDbg, IDA Pro  
+- **Búsqueda de cadenas**: ResourcesExtract, Bintext, Hex Workshop  
+- **Dependencias**: Dependency Walker  
 
 **Herramientas de máquina virtual:**
 
@@ -186,38 +186,38 @@ El kit de herramientas de malware debe incluir:
 
 ### 1.3 🛰️ Detección de incidentes de malware
 
-#### 🚨 Indicaciones de incidentes de malware
+### 🚨 Indicaciones de incidentes de malware
 
 El malware se propaga muy rápido dentro de una organización, por lo que es crucial **detectarlo pronto** para limitar los equipos infectados y reducir el esfuerzo de recuperación.
 
 Algunos indicadores:
 
-- 🌐 Flujos de tráfico de red anormales  
-- 📧 Correos rebotados inexplicables  
-- 📢 Ventanas emergentes, alertas y anuncios irrelevantes  
-- 📜 Registros con intentos de escaneo de puertos o acceso no autorizado  
-- 🗂️ Modificación, eliminación o reubicación de archivos  
-- 💀 Pantallas azules (BSOD)  
-- 🧊 Congelamientos, apagados y bloqueos repentinos  
-- 🐌 Ralentización general del sistema  
-- ⛔ Incapacidad para instalar actualizaciones  
-- 🔕 Programas de seguridad deshabilitados  
-- 🌍 Cambios extraños en configuración del navegador  
-- ⚙️ Programas no aprobados que se inician solos  
-- 📩 Envío masivo de correos o publicaciones no deseadas  
-- 🔐 Cuentas de usuario desconocidas  
-- 🔄 Reinicios inesperados  
-- 🖱️ Movimiento extraño del ratón o teclado congelado  
-- ❗ Alertas antivirus constantes  
-- 📁 Archivos/carpetas que desaparecen  
-- 📦 Falta de espacio en disco sin motivo aparente  
-- 🪟 Pop-ups y anuncios no deseados  
+- Flujos de tráfico de red anormales  
+- Correos rebotados inexplicables  
+- Ventanas emergentes, alertas y anuncios irrelevantes  
+- Registros con intentos de escaneo de puertos o acceso no autorizado  
+- Modificación, eliminación o reubicación de archivos  
+- Pantallas azules (BSOD)  
+- Congelamientos, apagados y bloqueos repentinos  
+- Ralentización general del sistema  
+- Incapacidad para instalar actualizaciones  
+- Programas de seguridad deshabilitados  
+- Cambios extraños en configuración del navegador  
+- Programas no aprobados que se inician solos  
+- Envío masivo de correos o publicaciones no deseadas  
+- Cuentas de usuario desconocidas  
+- Reinicios inesperados  
+- Movimiento extraño del ratón o teclado congelado  
+- Alertas antivirus constantes  
+- Archivos/carpetas que desaparecen  
+- Falta de espacio en disco sin motivo aparente  
+- Pop-ups y anuncios no deseados  
 
 *(Lista resumida)*
 
 ---
 
-#### 🧪 Técnicas de detección de malware
+### 🧪 Técnicas de detección de malware
 
 Tras los primeros avisos de actividad sospechosa, el equipo de respuesta debe:
 
@@ -235,7 +235,7 @@ Se recomienda combinar las tres para entender mejor la funcionalidad del malware
 
 ---
 
-#### 🧪 Técnicas de detección de malware: sistema en vivo / análisis dinámico
+### 🧪 Técnicas de detección de malware: sistema en vivo / análisis dinámico
 
 El **análisis dinámico** (o de sistema en vivo) detecta malware basándose en **lo que hace** dentro del sistema:
 
@@ -247,167 +247,136 @@ El **análisis dinámico** (o de sistema en vivo) detecta malware basándose en 
 
 Se centra en monitorizar:
 
-- 🔌 **Supervisión del puerto**  
-- ⚙️ **Supervisión del proceso**  
-- 🪟 **Supervisión del registro**  
-- 🧩 **Servicios de Windows**  
-- 🚀 **Programas de inicio**  
-- 📜 **Registro de eventos**  
-- 📦 **Instalaciones**  
-- 📂 **Archivos y carpetas**  
-- 🧮 **Controladores de dispositivo**  
-- 🌐 **Tráfico de red**  
-- 🧭 **Resolución de DNS**  
-- 🧬 **Llamadas a API**  
-- 🕒 **Tareas programadas**  
-- 🌍 **Actividad del navegador**
+- **Supervisión de puertos**  
+- **Supervisión de procesos**  
+- **Supervisión del registro**  
+- **Servicios de Windows**  
+- **Programas de inicio**  
+- **Registro de eventos**  
+- **Instalaciones**  
+- **Archivos y carpetas**  
+- **Controladores de dispositivo**  
+- **Tráfico de red**  
+- **Resolución de DNS**  
+- **Llamadas a API**  
+- **Tareas programadas**  
+- **Actividad del navegador**
 
 ---
 
-#### 🌐 Análisis del sistema en vivo: monitoreo de puertos
+### 🌐 Análisis del sistema en vivo: monitoreo de puertos
 
-*(Sección pendiente de desarrollo: aquí puedes añadir herramientas tipo `netstat`, `TCPView`, etc.)*
+El malware puede **corromper el sistema** y **abrir puertos de entrada/salida** para comunicarse con servidores remotos, propagar infecciones o crear **puertas traseras**.  
+Estos puertos abiertos actúan como canales de control y permiten que el atacante mantenga acceso al sistema.  
+Por ello, **identificar puertos sospechosos** es una técnica clave en el análisis dinámico del sistema.
 
----
+Durante un análisis en vivo, los respondedores pueden usar herramientas de monitoreo para observar:
+- Protocolo
+- Dirección local / remota
+- Estado de la conexión
+- PID y proceso asociado
 
-## 2. Adquisición de Evidencia (Copia Forense)
+#### 🛠️ Herramientas principales
 
-**Concepto:** La copia forense (imagen _bit-stream_) es la adquisición de datos que genera un duplicado exacto (bit a bit) de un dispositivo de almacenamiento a otro, asegurando que la evidencia original no se modifique.
+#### **1. netstat (línea de comandos)**  
+Muestra:
+- Conexiones TCP activas  
+- Puertos TCP/UDP en escucha  
+- Estadísticas de red (Ethernet, IP, TCP, UDP)  
+- Tabla de enrutamiento  
 
-### 💾 Herramientas de Imagen de Disco
+**Sintaxis:**
 
-- **FTK Imager:** El estándar gratuito en Windows. Permite crear imágenes, montar discos y visualizar contenido.
-- **Guymager:** La mejor herramienta gráfica para Linux (rápida y robusta).
-- **DC3DD / DCFLDD:** Versiones forenses del comando `dd` de Linux con hashing y logs de seguridad.
-- **Fuji (Forensic Unattended Juicy Imaging):** Para automatizar imágenes.
+netstat [-a] [-e] [-n] [-o] [-p protocolo] [-r] [-s] [intervalo]
 
-### 🌐 Adquisición Web (OSINT y Preservación)
+**Parámetros útiles:**
+- `-a` → mostrar todas las conexiones y puertos en escucha  
+- `-e` → estadísticas de Ethernet  
+- `-n` → mostrar direcciones y puertos numéricos  
+- `-o` → incluir el PID del proceso  
+- `-p` → filtrar por protocolo (TCP, UDP, TCPv6, UDPv6…)  
+- `-s` → estadísticas por protocolo  
+- `-r` → tabla de enrutamiento  
 
-- **FAW (Forensic Acquisition of Websites):** Navegador forense para capturar páginas web con valor legal.
-- **Httrack:** Para descargar sitios web completos.
-- **Browser History Capturer / Chrome Cache View:** Herramientas de NirSoft para extraer historiales locales.
+**Ejemplo:**
 
----
+netstat -an
 
-## 3. Respuesta a Incidentes (First Responder)
+#### **2. TCPView (GUI)**  
+Fuente: https://docs.microsoft.com  
 
-El rol del First Responder:
+TCPView ofrece una vista gráfica de:
+- Puntos finales TCP/UDP  
+- Direcciones locales y remotas  
+- Estado de cada conexión  
+- Resolución DNS automática  
 
-Es el primero en intervenir en la escena. Debe seguir protocolos estrictos para no alterar la situación (ni destruir pruebas, ni añadir rastros). Su objetivo es preservar la volatilidad de los datos.
+Incluye **TCPVCon**, versión por línea de comandos.
 
-### 🚑 Herramientas de Triage y Recolección en Vivo
+### 📦 Otras herramientas de monitoreo de puertos
 
-- **Velociraptor / GRR Rapid Response:** Para caza de amenazas y monitoreo remoto a gran escala.
-- **OSQuery:** Convierte el sistema operativo en una base de datos relacional para hacer consultas SQL sobre su estado.
-- **UAC (Unix-like Artifacts Collector):** Recolector de artefactos para sistemas Linux/Unix.
-- **MIG (Mozilla InvestiGator):** Plataforma de investigación remota.
-
----
-
-## 4. Análisis Forense: General y Triage
-
-El análisis implica la conversión, extracción e interpretación de datos para reconstruir la cronología: _quién, cómo, cuándo y qué_.
-
-### 🔍 Suites de Análisis
-
-- **Autopsy:** La interfaz gráfica de _The Sleuth Kit_. La herramienta open source más completa.
-- **IPED (Indexador y Procesador de Evidencias Digitales):** Muy potente, usada por la policía federal de Brasil. Excelente para grandes volúmenes de datos.
-- **Turbinia:** Automatización de análisis forense en la nube.
-- **DFF (Digital Forensics Framework):** Entorno modular de análisis.
-
----
-
-## 5. Análisis Específico: Windows y macOS
-
-### 🪟 Windows Forensics
-
-Es el campo más consolidado, enfocado en recuperar artefactos de usuario, registro y sistema en entornos corporativos.
-
-- **NirSoft Tools:** Suite esencial de pequeñas utilidades.
-- **PowerForensics:** Framework de análisis basado en PowerShell.
-
-### 🍎 Mac Forensics
-
-Requiere conocimiento profundo del sistema de archivos APFS y estructuras de Apple.
-
-- **mac_apt (macOS Artifact Parsing Tool):** Imprescindible para parsear artefactos.
-- **APFS Fuse:** Driver para montar discos APFS en Linux.
-- **OSXAuditor / OSX Collect:** Herramientas de auditoría y recolección.
-- **MacLocationsScraper / macMRUParser:** Para geolocalización y listas de archivos recientes.
+| Herramienta            | Enlace |
+|------------------------|--------|
+| CurrPorts              | https://www.nirsoft.net |
+| dotcom-monitor         | https://www.dotcom-monitor.com |
+| PortExpert             | http://www.kcsoftwares.com |
+| PRTG Network Monitor   | https://www.paessler.com |
+| Nagios Port Monitor    | https://exchange.nagios.org |
 
 ---
 
-## 6. Análisis de Memoria y Metadatos
+### 🌐 Análisis del sistema en vivo: monitoreo de procesos
 
-**Análisis de Metadatos:** Los "datos sobre los datos". Revelan la historia del archivo (creación, modificación, acceso, autoría).
+El malware puede entrar en un sistema a través de archivos descargados (imágenes, música, videos, etc.) y **camuflarse como procesos o servicios legítimos** de Windows para evitar su detección.  
+Algunos malwares se inyectan en procesos comunes como `explorer.exe` o navegadores web utilizando técnicas PE o métodos estilo **rootkit**, lo que les permite evadir antivirus y firewalls.
 
-### 🧠 Memoria RAM y Procesos
+El **monitoreo de procesos** permite identificar estos comportamientos analizando:
+- Procesos iniciados por el malware
+- Procesos padre/hijo
+- DLL cargadas
+- Funciones ejecutadas
+- Cambios antes/después de ejecutar el malware
 
-- **Volatility:** El framework líder para analizar volcados de memoria RAM (detectar malware, contraseñas, conexiones).
-- **Rekall:** Fork de Volatility, enfocado en análisis de memoria.
-- **MemProcFS:** Visualiza la memoria física como un sistema de archivos virtual.
+Este enfoque ayuda a detectar:
+- Procesos ocultos o disfrazados  
+- Inyección de código  
+- Actividad sospechosa en procesos legítimos  
 
-### 📋 Metadatos y Hashing
+Herramientas como **Process Monitor** son clave para este tipo de análisis.
 
-- **Hashlookup:** Servicio para verificar hashes contra bases de datos de archivos conocidos (NSRL).
-- **Laika BOSS:** Escáner de objetos y archivos intrusivos.
+#### 🛠️ Process Monitor (Sysinternals)
 
----
+Fuente: https://docs.microsoft.com  
 
-## 7. Recuperación de Datos (Data Recovery)
+**Process Monitor** muestra en tiempo real:
+- Actividad del sistema de archivos  
+- Actividad del registro (Registry)  
+- Procesos e hilos (threads)  
+- Eventos del sistema  
 
-Herramientas para recuperar archivos borrados o de discos dañados (File Carving).
+Combina las funciones de Filemon y Regmon con mejoras avanzadas.
 
-- **PhotoRec / TestDisk:** Open source, muy potentes para recuperar particiones y archivos crudos.
-- **R-Studio:** (Comercial) Considerado uno de los mejores para recuperación lógica compleja.
-- **Recuva:** Básico, bueno para recuperaciones sencillas en Windows.
-- **DiskGenius / EaseUS:** Suites "todo en uno" para gestión de discos y recuperación.
+**Características destacadas:**
+- Captura detallada de entradas/salidas de cada operación  
+- Filtros no destructivos  
+- Captura de *call stacks* de hilos  
+- Información completa del proceso (ruta, usuario, PID, línea de comandos)  
+- Columnas configurables  
+- Registro de millones de eventos  
+- Vista jerárquica de procesos  
+- Formato de registro propio para análisis posterior  
 
----
+### 🔍 Otras herramientas de monitoreo de procesos
 
-## 8. Suite de Herramientas "DBX" (Utilidades Ligeras)
+| Herramienta | Enlace |
+|------------|--------|
+| Process Explorer | https://docs.microsoft.com |
+| M/Monit | https://mmonit.com |
+| ESET SysInspector | https://www.eset.com |
+| System Explorer | http://systemexplorer.net |
+| Security Task Manager | https://www.neuber.com |
+| HiJackThis | https://sourceforge.net |
+| YAPM (Yet Another Process Monitor) | http://yaprocmon.sourceforge.net |
+| Process Network Monitor | https://securityxploded.com |
+| OpManager | https://www.manageengine.com |
 
-_Colección de herramientas especializadas para tareas rápidas y precisas._
-
-| Herramienta | Descripción y Funcionalidad |
-| :--- | :--- |
-| **dbxScreenshot** | **Captura Forense de Pantalla.** Captura con metadatos detallados (Timestamp UTC, Hash MD5/SHA, usuario, ID dispositivo) para preservar la cadena de custodia visual. |
-| **dbxCsvViewer** | **Visor CSV Avanzado.** Soporta delimitadores complejos, carga rápida, ordenamiento y exportación directa a Excel (.xlsx). Ideal para logs masivos. |
-| **dbxMetadata** | **Analizador de Atributos.** Muestra info del sistema de archivos (MAC times) y metadatos internos de diversos formatos. |
-| **dbxSeqCheck** | _(En desarrollo)_ **Verificador de Secuencias.** Detecta huecos, duplicados o desorden en secuencias numéricas (útil para facturas, logs ID, etc.). |
-| **dbxHashFile** | **Calculadora de Hashing.** Cálculo rápido y paralelo de hashes (MD5, SHA1, SHA256, etc.) para verificar integridad de ficheros. |
-
----
-
-## 9. Recursos y Mejores Prácticas
-
-### 📚 Guías y Protocolos (Must Read)
-
-- **ENISA Digital Forensics Handbook:** La biblia europea de procedimientos.
-- **SWGDE Best Practices:** Estándares del grupo de trabajo científico sobre evidencia digital.
-- **Interpol Guidelines:** Guía para primeros intervinientes (First Responders).
-- **RFC 3227:** Guía para la recolección de evidencia y orden de volatilidad.
-
-### 🛠️ Herramientas Comerciales (Nivel Enterprise)
-
-Si el presupuesto lo permite, estas son las herramientas estándar en cuerpos policiales y grandes firmas:
-
-- **Cellebrite UFED:** Líder mundial en forense móvil.
-- **Magnet AXIOM:** Excelente correlación de artefactos (móvil + PC + nube).
-- **EnCase Forensic:** El software clásico de la industria, muy usado en entornos judiciales.
-
----
-
-<div align="center">
-  <br/>
-  <p>
-    <img src="https://img.shields.io/badge/Made%20with-❤️-FF5555?style=flat-square" alt="Love" />
-    by <a href="https://github.com/Ph0e-Nyx"><strong>Ph0e-Nyx</strong></a>
-  </p>
-  <p>
-    <em>"The truth is in the data."</em>
-  </p>
-  <p>
-    <a href="#">Volver al inicio ⬆️</a>
-  </p>
-</div>

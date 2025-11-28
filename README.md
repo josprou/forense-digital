@@ -18,107 +18,255 @@
 
 ## 📑 Índice de Contenidos
 
-1. [Respuesta a incidentes de malware](#1-respuesta-a-incidentes-de-malware)
-2. [Respuestas a incidentes de correo eletrónico](#2-respuestas-a-incidentes-de-correo-eletrónico)
-3. [Respuesta a incidentes de red](#3-respuesta-a-incidentes-de-red)
-4. [Respuesta a incidentes de aplicaciones web](#4-respuesta-a-incidentes-de-aplicaciones-web)
-5. [Respuesta a incidentes en la nube](#5-respuesta-a-incidentes-en-la-nube)
-6. [Recursos y Mejores Prácticas](#9-recursos-y-mejores-prácticas)
+1. [🛡️ Respuesta a incidentes de malware](#1-respuesta-a-incidentes-de-seguridad-de-malware)
+2. [📨 Respuestas a incidentes de correo electrónico](#2-respuestas-a-incidentes-de-correo-electrónico)
+3. [🌐 Respuesta a incidentes de red](#3-respuesta-a-incidentes-de-red)
+4. [🕸️ Respuesta a incidentes de aplicaciones web](#4-respuesta-a-incidentes-de-aplicaciones-web)
+5. [☁️ Respuesta a incidentes en la nube](#5-respuesta-a-incidentes-en-la-nube)
+6. [📚 Recursos y Mejores Prácticas](#6-recursos-y-mejores-prácticas)
 
 ---
 
-## 1. Respuesta a incidentes de seguridad de malware
+## 1. 🛡️ Respuesta a incidentes de seguridad de malware
 
-El malware es software malintencionado creado para dañar sistemas, robar información o dar control al atacante. Incluye virus, gusanos, troyanos, rootkits, puertas traseras, ransomware, spyware, adware, botnets, keyloggers, crypters, etc.
+### 1.1 🔎 Descripción general de la respuesta ante incidentes de malware
+
+El **malware** es software malintencionado creado para dañar sistemas, robar información o dar control al atacante. Incluye **virus, gusanos, troyanos, rootkits, puertas traseras, ransomware, spyware, adware, botnets, keyloggers, crypters**, etc.
 
 Sus efectos pueden incluir:
 
-- **Robo de datos personales o corporativos**
-- **Ralentización del sistema**
-- **Borrado de información**
-- **Fallos del sistema o del hardware**
-- **Uso del equipo infectado para atacar a otros**
-- **Envío de spam o publicidad maliciosa**
+- 🕵️‍♂️ **Robo de datos personales o corporativos**
+- 🐌 **Ralentización del sistema**
+- ❌ **Borrado de información**
+- ⚠️ **Fallos del sistema o del hardware**
+- 🔁 **Uso del equipo infectado para atacar a otros**
+- 📩 **Envío de spam o publicidad maliciosa**
 
-### 🐧 Tipos principales de malware
-#### 1. Troyano
-Se oculta dentro de un programa legítimo y se activa con acciones del usuario. Da acceso total al atacante y puede borrar datos, robar contraseñas o usar la máquina para atacar a otros.
-#### 2. Puerta trasera (Backdoor)
-Permite acceder al sistema evitando autenticación o controles de seguridad. Se instala sin conocimiento del usuario y facilita control remoto continuo.
-#### 3. Rootkit
-Otorga privilegios de root y oculta actividades del atacante modificando componentes del sistema operativo. Permite instalar herramientas maliciosas sin ser detectado.
-#### 4. Ransomware
-Bloquea el ordenador o cifra archivos y exige un rescate para devolver el acceso. Suele propagarse por correos maliciosos o descargas inseguras.
-#### 5. Adware
-Muestra anuncios no deseados y puede redirigir a sitios maliciosos o descargar otros tipos de malware.
-#### 6. Virus
-Programa que se autorreplica infectando archivos. Requiere acción del usuario para propagarse y puede dañar o borrar datos.
-#### 7. Gusano
-Similar al virus pero no necesita intervención humana. Se propaga por la red, satura recursos y puede instalar puertas traseras.
-#### 8. Spyware
-Vigila en secreto la actividad del usuario, registrando pulsaciones de teclado, contraseñas, páginas visitadas y capturas de pantalla.
-#### 9. Botnet
-Red de equipos infectados controlados por un atacante para realizar ataques (DDoS), enviar spam, distribuir malware, etc.
-#### 10. Crypters
-Herramientas para cifrar malware y hacerlo indetectable para los antivirus.
+---
 
-### 🐧 Componentes del malware
-Los atacantes desarrollan malware combinando distintos componentes especializados que les permiten robar datos, modificar sistemas, instalar puertas traseras o simplemente propagarse de forma encubierta. Estos elementos ayudan al malware a evadir detección, infectar, ocultarse y ejecutar acciones maliciosas.
+### 🦠 Tipos principales de malware
 
-Componentes principales del malware
-- **Crypter**: oculta el malware cifrándolo para evitar que los antivirus lo detecten o analicen.
-- **Downloader**: troyano que descarga desde Internet más malware al sistema comprometido.
-- **Dropper**: instala el malware de forma encubierta y puede traer archivos adicionales necesarios para la infección.
-- **Exploit**: código que aprovecha vulnerabilidades para comprometer el sistema, espiar o instalar malware.
-- **Injector**: inserta código malicioso o exploits dentro de procesos legítimos para ocultar su actividad.
-- **Obfuscator*: oculta o transforma el código malicioso para dificultar su análisis y detección.
-- **Packer**: comprime y transforma el malware a un formato ilegible para hacer más difícil su identificación.
-- **Payload (carga útil)**: la parte del malware que ejecuta la acción maliciosa (borrar datos, abrir puertos, modificar archivos, etc.).
-- **Código malicioso**: instrucciones base del malware, que pueden aparecer como subprogramas Java, controles ActiveX, complementos de navegador o contenido embebido.
+| Tipo        | Descripción breve                                                                                   | Impacto típico                                   |
+|-------------|------------------------------------------------------------------------------------------------------|--------------------------------------------------|
+| Troyano     |Se oculta dentro de programas legítimos y se activa con acciones del usuario.                       | Robo de datos, control remoto, instalación de más malware. |
+| Puerta trasera (Backdoor) | Permite acceso remoto al sistema saltándose autenticación y controles de seguridad.           | Acceso persistente, movimiento lateral en la red. |
+| Rootkit     | Modifica componentes del sistema operativo para ocultar la presencia del atacante.                  | Ocultación de malware, control total del sistema. |
+| Ransomware  | Cifra archivos o bloquea el sistema y exige un rescate para restaurar el acceso.                    | Pérdida de disponibilidad, extorsión económica.   |
+| Adware      | Muestra anuncios no deseados; puede redirigir a sitios maliciosos o descargar más malware.         | Molestias, riesgo de nuevas infecciones.          |
+| Virus       | Se autorreplica infectando archivos y requiere acción del usuario para propagarse.                 | Corrupción o borrado de datos, inestabilidad del sistema. |
+| Gusano      | Se propaga automáticamente por la red sin intervención humana.                                      | Saturación de red, propagación masiva, instalación de backdoors. |
+| Spyware     | Espía la actividad del usuario (teclas, pantallas, sitios visitados, credenciales, etc.).         | Robo de credenciales, espionaje, violación de privacidad. |
+| Botnet      | Red de equipos infectados controlados de forma centralizada por un atacante.                       | Ataques DDoS, envío de spam, distribución de malware. |
+| Crypter     | Cifra/empaca el malware para ocultarlo de soluciones antivirus y sistemas de análisis.             | Evasión de detección, persistencia de otras amenazas. |
 
-### 🐧 Métodos de propagación de malware
-Los métodos más comunes que utilizan los atacantes para infectar un sistema con malware incluyen:  
-- Aplicaciones de mensajería instantánea  
-- Medios de hardware portátiles/dispositivos extraíbles  
-- Errores de software del navegador y correo electrónico 
-- Administración de parches insegura  
-- Aplicaciones falsas/señuelo  
-- Sitios no confiables y aplicaciones web/software gratuito  
-- Descarga de archivos basados en Internet  
-- Archivos adjuntos de correo electrónico  
-- Propagación de red 
-- Servicios para compartir archivos [sistema básico de entrada/salida de red (NetBIOS); protocolo de transferencia de archivos (FTP); bloque de mensajes del servidor (SMB)] 
-- Instalación por otros malwares  
-- Bluetooth y redes inalámbricas  
-- Ejecutables infectados, archivos de biblioteca de vínculos dinámicos (DLL), macros, JavaScripts y Documentos 
+---
 
-### 🐧 Técnicas comunes que utilizan los atacantes para distribuir software malicioso en la Web  
+### 🧩 Componentes del malware
+
+Los atacantes desarrollan malware combinando distintos componentes especializados que les permiten robar datos, modificar sistemas, instalar puertas traseras o simplemente propagarse de forma encubierta. Estos elementos ayudan al malware a **evadir detección**, **infectar**, **ocultarse** y **ejecutar acciones maliciosas**.
+
+#### 🔧 Componentes principales del malware
+
+| Componente         | Descripción                                                                                                                |
+|--------------------|----------------------------------------------------------------------------------------------------------------------------|
+| Crypter            | Oculta el malware cifrándolo para evitar que los antivirus lo detecten o analicen.                                         |
+| Downloader         | Troyano que descarga desde Internet más malware o archivos maliciosos al sistema comprometido.                            |
+| Dropper            | Instala el malware de forma encubierta y puede traer archivos adicionales necesarios para la infección.                   |
+| Exploit            | Código que aprovecha vulnerabilidades para comprometer el sistema, espiar o instalar malware.                             |
+| Injector           | Inyecta código malicioso o exploits dentro de procesos legítimos para ocultar su actividad.                               |
+| Obfuscator         | Oculta o transforma el código malicioso para dificultar su análisis y detección.                                          |
+| Packer             | Comprime y transforma el malware a un formato ilegible para complicar su identificación.                                   |
+| Payload (carga útil)| Parte del malware que ejecuta la acción maliciosa, como borrar archivos, abrir puertos o modificar configuraciones.      |
+| Código malicioso   | Instrucciones base del malware (subprogramas Java, ActiveX, complementos de navegador, contenido incrustado, etc.).       |
+
+---
+
+### 🌍 Métodos de propagación de malware
+
+Los métodos más comunes que utilizan los atacantes para infectar un sistema con malware incluyen:
+
+- 💬 Aplicaciones de mensajería instantánea  
+- 💾 Medios de hardware portátiles / dispositivos extraíbles  
+- 🌐 Errores de software del navegador y correo electrónico  
+- 🩹 Administración de parches insegura  
+- 🎭 Aplicaciones falsas / señuelo  
+- ⚠️ Sitios no confiables y aplicaciones web / software gratuito  
+- 📥 Descarga de archivos basados en Internet  
+- 📎 Archivos adjuntos de correo electrónico  
+- 🌐 Propagación de red  
+- 🔗 Servicios para compartir archivos (NetBIOS, FTP, SMB)  
+- 🧬 Instalación por otros malwares  
+- 📡 Bluetooth y redes inalámbricas  
+- 🧠 Ejecutables infectados, DLL, macros, JavaScript y documentos  
+
+---
+
+### 🌐 Técnicas comunes que utilizan los atacantes para distribuir software malicioso en la Web
+
 Los atacantes utilizan varias técnicas para difundir malware aprovechando fallos, ingeniería social y manipulación de contenidos:
-- **Black Hat SEO**: manipulan motores de búsqueda usando técnicas SEO agresivas para posicionar páginas que contienen malware.
-- **Clickjacking social**: engañan a usuarios para que hagan clic en enlaces infectados dentro de sitios aparentemente legítimos.
-- **Spear phishing web**: crean páginas falsas que imitan instituciones reales para robar contraseñas y datos bancarios.
-- **Malvertising**: insertan anuncios maliciosos en plataformas de publicidad legítimas para infectar a usuarios.
-- **Sitios legítimos comprometidos**: usan webs vulnerables para instalar malware cuando el usuario las visita.
-- **Descargas automáticas (drive-by downloads)**: explotan vulnerabilidades del navegador para instalar malware sin interacción del usuario.
-- **Correos con malware**: envían emails con adjuntos o enlaces infectados; es uno de los métodos más comunes hoy en día.
 
-### 🐧 Caso de estudio
-El siguiente caso de estudio muestra la importancia y la necesidad del malware IR para manejar de manera efectiva los incidentes de seguridad del malware: 
+- 🎯 **Black Hat SEO**: manipulan motores de búsqueda usando técnicas SEO agresivas para posicionar páginas que contienen malware.  
+- 🖱️ **Clickjacking social**: engañan a usuarios para que hagan clic en enlaces infectados dentro de sitios aparentemente legítimos.  
+- 🏦 **Spear phishing web**: crean páginas falsas que imitan instituciones reales para robar contraseñas y datos bancarios.  
+- 📢 **Malvertising**: insertan anuncios maliciosos en plataformas de publicidad legítimas para infectar a usuarios.  
+- 🕸️ **Sitios legítimos comprometidos**: usan webs vulnerables para instalar malware cuando el usuario las visita.  
+- ⚙️ **Descargas automáticas (drive-by downloads)**: explotan vulnerabilidades del navegador para instalar malware sin interacción del usuario.  
+- 📧 **Correos con malware**: envían emails con adjuntos o enlaces infectados; es uno de los métodos más comunes hoy en día.
 
-**Desafío**: 
-Maria White, directora administrativa de la organización, encontró su sistema inaccesible y mostró la siguiente imagen. Entendiendo que fue algún tipo de ataque de malware, se puso en contacto con el equipo de RI para investigar el problema. Cuando llegaron los equipos de respuesta a incidentes, descubrieron que más de 30 sistemas de la organización se vieron afectados por un ataque de ransomware similar. 
+---
 
-**Proceso**: 
-Los que respondieron separaron inmediatamente los sistemas afectados de la red en funcionamiento e informaron a la organización de Microsoft sobre el problema. Descubrieron que el problema había afectado a los sistemas a gran escala y era el resultado del uso de versiones más antiguas y vulnerables de los sistemas operativos Windows. 
+### 📚 Caso de estudio
 
-Como los sistemas eran inaccesibles, los que respondieron extrajeron la memoria del disco duro de algunos sistemas. Los respondedores extrajeron los datos y los transfirieron al entorno de la caja de arena para iniciar el análisis. 
+> 💼 **Desafío**  
+> Maria White, directora administrativa de la organización, encontró su sistema inaccesible tras un ataque de ransomware. El equipo de respuesta descubrió que más de **30 sistemas** estaban afectados.
 
-**Solución**: 
-Los respondedores inmediatamente parchearon el sistema operativo con actualizaciones de Microsoft y comenzaron a analizar los datos. Durante el análisis, descubrieron que el malware había cifrado todos los archivos del sistema. Intentaron analizar estáticamente los archivos y descubrieron que el malware intentaba conectarse a un dominio no registrado y mostraba signos de falla de conexión. El equipo utilizó diferentes técnicas de análisis de malware, como buscar cadenas, buscar archivos ejecutables portátiles (PE) e identificar dependencias de archivos, pero todo fue en vano. 
+> 🛠️ **Proceso**  
+> - Aislaron los sistemas afectados de la red.  
+> - Informaron a Microsoft del problema.  
+> - Extrajeron discos y datos para analizarlos en una sandbox.  
+> - Descubrieron que el malware cifraba todos los archivos del sistema.  
 
-Descubrieron que el malware estaba utilizando la solicitud de dominio como clave de descifrado y que cualquier respuesta del dominio podría liberar los sistemas. Luego, el equipo de respuesta utilizó servicios de simulación de red, como la suite de simulación de servicios de Internet (iNetSim), para simular la respuesta como si fuera del dominio solicitado por el malware. Al aplicar lo mismo, el ransomware desbloqueó el sistema. Los que respondieron inmediatamente utilizaron esta técnica en todos los sistemas y los parchearon con una actualización del fabricante. 
+> ✅ **Solución**  
+> - Parcharon los sistemas con actualizaciones de Microsoft.  
+> - Analizaron el malware (cadenas, PE, dependencias).  
+> - Descubrieron que usaba una solicitud de dominio como clave de descifrado.  
+> - Simularon la respuesta del dominio con **iNetSim** y lograron desbloquear los sistemas.  
+> - Aplicaron la técnica a todos los equipos y recomendaron **políticas de actualización automática**.
 
-Los que respondieron también sugirieron que la empresa debe tener una política de actualización automática programada para evitar la explotación de las vulnerabilidades del sistema existente. 
+---
+
+### 1.2 🧰 Preparación para manejar los incidentes de malware
+
+#### 🛠️ Herramientas de software
+
+El kit de herramientas de malware debe incluir:
+
+- 💻 Una computadora portátil con herramientas de análisis  
+- 💾 Dispositivos para copias de seguridad  
+- 🌐 Hardware y cables de red  
+- 📀 Dispositivos extraíbles (DVD, USB) para recopilar y transferir evidencias  
+
+**Herramientas recomendadas para detección y análisis de malware:**
+
+- 🧪 **Virtualización**: VirtualBox, VMware vSphere Hypervisor, Microsoft Virtual Server  
+- 📸 **Imágenes forenses**: FTK Imager  
+- 🧬 **Análisis de PE**: PEView, PeStudio, PEiD, PEBrowse  
+- 🧾 **Snapshots de host**: Regshot, RegMon, FileMon, Total Commander  
+- 🧠 **Volcado de memoria**: Scylla, OllyDumpEx  
+- 🌐 **Rastreo de red**: Wireshark  
+- 🌍 **Simulación de red**: iNetSim  
+- 📊 **Procesos y monitorización**: Process Monitor, Process Explorer  
+- 🔢 **Hex editors**: HexEditor, 010 Editor, Hexinator  
+- 🐞 **Depuración**: OllyDbg, IDA Pro  
+- 🧵 **Búsqueda de cadenas**: ResourcesExtract, Bintext, Hex Workshop  
+- 🧩 **Dependencias**: Dependency Walker  
+
+**Herramientas de máquina virtual:**
+
+- Hyper-V  
+- Parallels Desktop  
+- Boot Camp  
+
+**Captura de pantalla y grabación:**
+
+- SnagIt, Jing, Camtasia, Ezvid  
+
+**Simulación de red e Internet:**
+
+- ns-3, Riverbed Modeler, QualNet  
+
+**Imágenes y backup del SO:**
+
+- Genie Backup Manager Pro  
+- Macrium Reflect Server  
+- R-Drive Image  
+- O&O DiskImage  
+
+---
+
+### 1.3 🛰️ Detección de incidentes de malware
+
+#### 🚨 Indicaciones de incidentes de malware
+
+El malware se propaga muy rápido dentro de una organización, por lo que es crucial **detectarlo pronto** para limitar los equipos infectados y reducir el esfuerzo de recuperación.
+
+Algunos indicadores:
+
+- 🌐 Flujos de tráfico de red anormales  
+- 📧 Correos rebotados inexplicables  
+- 📢 Ventanas emergentes, alertas y anuncios irrelevantes  
+- 📜 Registros con intentos de escaneo de puertos o acceso no autorizado  
+- 🗂️ Modificación, eliminación o reubicación de archivos  
+- 💀 Pantallas azules (BSOD)  
+- 🧊 Congelamientos, apagados y bloqueos repentinos  
+- 🐌 Ralentización general del sistema  
+- ⛔ Incapacidad para instalar actualizaciones  
+- 🔕 Programas de seguridad deshabilitados  
+- 🌍 Cambios extraños en configuración del navegador  
+- ⚙️ Programas no aprobados que se inician solos  
+- 📩 Envío masivo de correos o publicaciones no deseadas  
+- 🔐 Cuentas de usuario desconocidas  
+- 🔄 Reinicios inesperados  
+- 🖱️ Movimiento extraño del ratón o teclado congelado  
+- ❗ Alertas antivirus constantes  
+- 📁 Archivos/carpetas que desaparecen  
+- 📦 Falta de espacio en disco sin motivo aparente  
+- 🪟 Pop-ups y anuncios no deseados  
+
+*(Lista resumida)*
+
+---
+
+#### 🧪 Técnicas de detección de malware
+
+Tras los primeros avisos de actividad sospechosa, el equipo de respuesta debe:
+
+- Analizar red y sistemas para encontrar archivos maliciosos.  
+- Verificar si el malware se ha propagado a otros dispositivos.  
+- Identificar tipo de malware, comportamiento, zonas afectadas y firma.  
+
+Técnicas principales:
+
+- 🔄 **Análisis dinámico / sistema en vivo**: analizar sistemas en ejecución.  
+- 🧱 **Análisis estático / volcado de memoria**: revisar binarios y dumps.  
+- 📊 **Análisis de intrusiones**: revisar logs, SIEM, IDS, firewalls.
+
+Se recomienda combinar las tres para entender mejor la funcionalidad del malware.
+
+---
+
+#### 🧪 Técnicas de detección de malware: sistema en vivo / análisis dinámico
+
+El **análisis dinámico** (o de sistema en vivo) detecta malware basándose en **lo que hace** dentro del sistema:
+
+- Archivos creados o modificados  
+- Puertos usados  
+- Procesos iniciados  
+- Cambios de configuración  
+- Conexiones a URLs sospechosas  
+
+Se centra en monitorizar:
+
+- 🔌 **Supervisión del puerto**  
+- ⚙️ **Supervisión del proceso**  
+- 🪟 **Supervisión del registro**  
+- 🧩 **Servicios de Windows**  
+- 🚀 **Programas de inicio**  
+- 📜 **Registro de eventos**  
+- 📦 **Instalaciones**  
+- 📂 **Archivos y carpetas**  
+- 🧮 **Controladores de dispositivo**  
+- 🌐 **Tráfico de red**  
+- 🧭 **Resolución de DNS**  
+- 🧬 **Llamadas a API**  
+- 🕒 **Tareas programadas**  
+- 🌍 **Actividad del navegador**
+
+---
+
+#### 🌐 Análisis del sistema en vivo: monitoreo de puertos
+
+*(Sección pendiente de desarrollo: aquí puedes añadir herramientas tipo `netstat`, `TCPView`, etc.)*
 
 ---
 
